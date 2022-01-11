@@ -5,8 +5,8 @@
 
 # Installation 
 - To run this application, clone this repository to your computer to use it locally
-- - Run 'npm install' in the command line to receive the appropriate packages
-- - In the command line, run 'npm i mysql2' 
+- Run 'npm install' in the command line to receive the appropriate packages
+- In the command line, run 'npm i mysql2' 
 - Run 'npm i inquirer' and 'npm i console-table-printer'
 
 # Usage 
