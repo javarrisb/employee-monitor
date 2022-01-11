@@ -159,6 +159,213 @@ const addRole = () => {
     });
 };
 
+// add an employee 
+const addEmployee = () => {
+    db.query(`SELECT * FROM role`, (err, rows) => {
+        if (err) throw err;
+        const role = rows.map(role => {
+            return {
+                name: role.title,
+                value: role.id
+            }
+        })
+        // query to select employee with manager_d null for managers
+        db.query(`SELECT * FROM employees`, (err, rows) => {
+            if (err) throw err;
+            const nullManager = {
+                name: 'null',
+                value: null
+            };
+            const managers = rows.filter(employee => employee.manager_id === null);
+            const managersList = managers.map(manager => {
+                return {
+                    name: manager.first_name + ' ' + manager.last_name,
+                    value: manager.id
+                }
+            })
+            // no manager option
+            managersList.push(nullManager);
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'What is the new employee first name?'
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'What is the new employee last name?'
+                },
+                {
+                    type: 'list',
+                    name: 'title',
+                    message: 'What is the new title this employee will have?',
+                    choices: role
+                },
+                {
+                    type: 'list',
+                    name: 'manager',
+                    message: 'Who is the manager of the new employee?',
+                    choices: managersList
+                }
+            ])
+                // query to employee data
+                .then(response => {
+                    const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+                VALUES (?,?,?,?)`;
+                    const params = [response.firstName, response.lastName, response.title, response.manager];
 
+                    db.query(sql, params, (err, result) => {
+                        if (err) throw err;
+                        console.log('New employee has been added!');
+                        viewEmployee();
+                    })
+                });
+        });
+    });
+};
 
+// delete department
+const deleteDepartment = () => {
+    db.query(`SELECT * FROM department`, (err, rows) => {
+        if (err) throw err;
+        const departmentList = rows.map(department => {
+            return {
+                name: department.name,
+                value: department.id
+            }
+        })
+        inquirer.prompt(
+            {
+                type: 'list',
+                name: 'deleteDepartment',
+                message: 'Which department would you like to delete?',
+                choices: departmentList
+            }
+        )
+            .then(response => {
+                const sql = `DELETE FROM department WHERE id = ?`;
+                const params = [response.deleteDepartment];
+
+                db.query(sql, params, (err, result) => {
+                    if (err) throw err;
+                    console.log('Department deleted');
+                    viewDepartment();
+                })
+            });
+    });
+};
+
+// delete role
+const deleteRole = () => {
+    // query to all roles data
+    db.query(`SELECT * FROM role`, (err, rows) => {
+        if (err) throw err;
+        const roleList = rows.map(role => {
+            return {
+                name: role.title,
+                value: role.id
+            }
+        })
+        inquirer.prompt(
+            {
+                type: 'list',
+                name: 'deleteRole',
+                message: 'Which role would you like to delete?',
+                choices: roleList
+            }
+        )
+            .then(response => {
+                const sql = `DELETE FROM role WHERE id = ?`;
+                const params = [response.deleteRole];
+
+                db.query(sql, params, (err, result) => {
+                    if (err) throw err;
+                    console.log('Role has been deleted');
+                    viewRole();
+                })
+            });
+    });
+};
+
+// delete employee
+const deleteEmployee = () => {
+    // query to all employee data
+    db.query(`SELECT * FROM employee`, (err, rows) => {
+        if (err) throw err;
+        const employeeList = rows.map(employee => {
+            return {
+                name: employee.first_name + ' ' + employee.last_name,
+                value: employee.id
+            }
+        })
+        inquirer.prompt(
+            {
+                type: 'list',
+                name: 'deleteEmployee',
+                message: 'Which employee would you like to delete?',
+                choices: employeeList
+            }
+        )
+            .then(response => {
+                const sql = `DELETE FROM employee WHERE id = ?`;
+                const params = [response.deleteEmployee];
+
+                db.query(sql, params, (err, result) => {
+                    if (err) throw err;
+                    console.log('Employee has been deleted');
+                    viewEmployee();
+                })
+            });
+    });
+};
+
+// update existing employee role
+const updateEmployee = () => {
+    db.query(`SELECT * FROM role`, (err, rows) => {
+        if (err) throw err;
+        const roleList = rows.map(role => {
+            return {
+                name: role.title,
+                value: role.id
+            }
+        })
+        db.query(`SELECT * FROM employee`, (err, rows) => {
+            if (err) throw err;
+            const employeeList = rows.map(employee => {
+                return {
+                    name: employee.first_name + ' ' + employee.last_name,
+                    value: employee.id
+                }
+            })
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employee',
+                    message: 'What is the name of the employee you would like to update?',
+                    choices: employeeList
+                },
+                {
+                    type: 'list',
+                    name: 'newTitle',
+                    message: 'What new title will this employee hold?',
+                    choices: roleList
+                }
+            ])
+                .then(response => {
+                    const sql = `UPDATE employee SET role_id = ? WHERE id = ?`
+                    const params = [
+                        response.newTitle,
+                        response.employee
+                    ]
+
+                    db.query(sql, params, (err, result) => {
+                        if (err) throw err;
+                        console.log('Employee role has been updated')
+                    })
+                    viewEmployee();
+                })
+        });
+    });
+};
 

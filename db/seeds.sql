@@ -28,19 +28,19 @@ VALUES
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
-    ('Captain', 'America', 16, 1),
-    ('Black', 'Panther', 17, NULL),
+    ('Captain', 'America', 16, NULL),
+    ('Black', 'Panther', 17, 1),
     ('Spider', 'Man', 18, 1),
     ('Bruce', 'Banner', 19, NULL),
-    ('Doctor', 'Strange', 20, 2),
-    ('Dead', 'Pool', 21, 2),
-    ('Dare', 'Devil', 22, 2),
-    ('Nick', 'Fury', 23, 3),
-    ('Black', 'Widow', 24, 3),
+    ('Doctor', 'Strange', 20, 4),
+    ('Dead', 'Pool', 21, 4),
+    ('Dare', 'Devil', 22,NULL),
+    ('Nick', 'Fury', 23, 7),
+    ('Black', 'Widow', 24, 7),
     ('Jessica', 'Jones', 25, NULL),
-    ('Captain', 'Marvel', 26, NULL),
-    ('Luke', 'Cage', 27, 4),
-    ('Iron', 'Man', 28, 4),
-    ('Star', 'Lord', 29, NULL),
-    ('Wanda', 'Maximoff', 30, 5)
+    ('Captain', 'Marvel', 26, 10),
+    ('Luke', 'Cage', 27, 10),
+    ('Iron', 'Man', 28, NULL),
+    ('Star', 'Lord', 29, 13),
+    ('Wanda', 'Maximoff', 30, 13)
     ;
