@@ -11,9 +11,11 @@
 
 # Usage 
 - In order to use this app, go to the command line and run 'npm start'and answer the prompts on the app.
-- You can also watch this walkthorugh of how the app works: 
+- You can also watch this walkthorugh of how the app works: https://youtu.be/gAR6M6s1kd4
 
 # Screenshot of application 
+
+![screen 1-11](https://user-images.githubusercontent.com/89273544/148876299-14f4fef8-edbe-402c-b03a-35d091457739.png)
 
 # Contributions
 - Made with TLC by Javarrisb ❤️
